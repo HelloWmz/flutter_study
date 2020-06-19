@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'CartListPage.dart';
 import 'CommodityEvaluationPage.dart';
 import 'LoginPage.dart';
 import 'SearchPage.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     {'tittle': "筛选页面", 'page': SearchPage()},
     {'tittle': "商品评价", 'page': CommodityEvaluationPage()},
     {'tittle': "验证码输入框", 'page': VerificationBoxPage()},
+    {'tittle': "购物车", 'page': CartListPage()},
   ];
 
   @override
