@@ -17,7 +17,9 @@ class _RoundCheckBoxState extends State<RoundCheckBox> {
     return Center(
       child: GestureDetector(
           onTap: () {
-            widget.value = !widget.value;
+            setState(() {
+              widget.value = !widget.value;
+            });
             widget.onChanged(widget.value);
           },
             child: widget.value

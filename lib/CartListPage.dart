@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'RoundCheckBox.dart';
+import 'Databean.dart';
 
 class CartListPage extends StatefulWidget {
   @override
@@ -8,17 +9,32 @@ class CartListPage extends StatefulWidget {
 }
 
 class _State extends State<CartListPage> {
+  bool isEidet;
+  bool isAllSeclet=false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isEidet = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
             child: AppBar(
-              leading: Icon(
-                Icons.arrow_back_ios,
-                color: Color(
-                  0xff303133,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(
+                    0xff303133,
+                  ),
+                  size: 24,
                 ),
-                size: 24,
               ),
               title: _getCommonText("购物车(20)",
                   textColor: Color(
@@ -30,15 +46,17 @@ class _State extends State<CartListPage> {
               elevation: 0,
               backgroundColor: Colors.white,
               actions: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  alignment: Alignment.center,
-                  child: _getCommonText("完成",
-                      textColor: Color(
-                        0xff00C7C7,
-                      ),
-                      fontSize: 14),
-                )
+                _addGestureDetectorToWidget(
+                    child: Container(
+                      margin: EdgeInsets.only(right: 10),
+                      alignment: Alignment.center,
+                      child: _getCommonText(isEidet ? "编辑" : "完成",
+                          textColor: Color(
+                            0xff00C7C7,
+                          ),
+                          fontSize: 14),
+                    ),
+                    onTap: _clickTopTittle)
               ],
             ),
             preferredSize: Size.fromHeight(45)),
@@ -54,13 +72,18 @@ class _State extends State<CartListPage> {
                 ),
                 child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: mListData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return _getCartItem("11");
+                      return _getCartItem(mListData[index], index);
                     }),
               )),
-              SizedBox(height: 3,),
-              _getBottomView(),
+              SizedBox(
+                height: 3,
+              ),
+              Offstage(
+                offstage: isEidet,
+                child: _getBottomView(),
+              ),
             ],
           ),
         ));
@@ -84,8 +107,10 @@ class _State extends State<CartListPage> {
       child: Row(
         children: <Widget>[
           RoundCheckBox(
-            value: true,
-            onChanged: (v) {},
+            value: isAllSeclet,
+            onChanged: (v) {
+              _setClickAll(v);
+            },
           ),
           SizedBox(
             width: 5,
@@ -117,7 +142,7 @@ class _State extends State<CartListPage> {
     );
   }
 
-  Widget _getCartItem(String s) {
+  Widget _getCartItem(var item, int outPosition) {
     return Card(
       color: Colors.white,
       elevation: 0,
@@ -137,14 +162,19 @@ class _State extends State<CartListPage> {
                     height: 23,
                     child: Row(
                       children: <Widget>[
-                        RoundCheckBox(
-                          value: true,
-                          onChanged: (v) {},
+                        Offstage(
+                          child: RoundCheckBox(
+                            value: item["isoutSeclet"],
+                            onChanged: (v) {
+                              _setOutItem(outPosition, v);
+                            },
+                          ),
+                          offstage: item["isShow"],
                         ),
                         SizedBox(
                           width: 5,
                         ),
-                        _getCommonText("青年旅行舍",
+                        _getCommonText(item["title"],
                             textColor: Color(
                               0xff909399,
                             ),
@@ -165,11 +195,12 @@ class _State extends State<CartListPage> {
             Container(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: item["itemList"].length,
                   shrinkWrap: true, //为true可以解决子控件必须设置高度的问题
                   physics: NeverScrollableScrollPhysics(), //禁用滑动事件
                   itemBuilder: (BuildContext context, int index) {
-                    return _getCarInItem();
+                    return _getCarInItem(
+                        item["itemList"][index], outPosition, index);
                   }),
             )
           ],
@@ -178,13 +209,18 @@ class _State extends State<CartListPage> {
     );
   }
 
-  Widget _getCarInItem() {
+  Widget _getCarInItem(var item, int outPosition, int index) {
     return Container(
       child: Row(
         children: <Widget>[
-          RoundCheckBox(
-            value: false,
-            onChanged: (v) {},
+          Offstage(
+            child: RoundCheckBox(
+              value: item["isintSeclet"],
+              onChanged: (v) {
+                _setIntItem(outPosition, index, v);
+              },
+            ),
+            offstage: item["isintShow"],
           ),
           Expanded(
             child: Row(
@@ -207,12 +243,12 @@ class _State extends State<CartListPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _getCommonText("夏季出行必备太阳帽海滩帽遮阳两用帽大方简单",
+                      _getCommonText(item["itemTittle"],
                           textColor: Color(0Xff303133), fontSize: 14),
                       SizedBox(
                         height: 4,
                       ),
-                      _getCommonText("桔红色的荷叶卷边",
+                      _getCommonText(item["itemDes"],
                           textColor: Color(0xff909399), fontSize: 12),
                       SizedBox(
                         height: 20,
@@ -225,12 +261,12 @@ class _State extends State<CartListPage> {
                                 textColor: Color(0xffFF7455), fontSize: 12),
                             margin: EdgeInsets.only(top: 3, right: 2),
                           ),
-                          _getCommonText("90.00",
+                          _getCommonText(item["itemPic"],
                               textColor: Color(0xffFF7455),
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                           Text(
-                            "100.00",
+                            item["itemOld"],
                             style: TextStyle(
                                 color: Color(
                                   0xFFC0C4CC,
@@ -242,33 +278,41 @@ class _State extends State<CartListPage> {
                           Row(
                             children: <Widget>[
                               Container(
-                                child: _getCommonText("-",fontSize: 12,textColor: Color(0xFF909399)),
+                                child: _getCommonText("-",
+                                    fontSize: 12, textColor: Color(0xFF909399)),
                                 height: 16,
                                 width: 16,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border:Border.all(color: Color( 0xFFC0C4CC),width: 1,style: BorderStyle.solid)
-                                ),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: Color(0xFFC0C4CC),
+                                        width: 1,
+                                        style: BorderStyle.solid)),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 5,right: 5),
-                                child: _getCommonText("1",fontSize: 12,textColor: Color(0xFF303133)),
+                                margin: EdgeInsets.only(left: 5, right: 5),
+                                child: _getCommonText(item["num"],
+                                    fontSize: 12, textColor: Color(0xFF303133)),
                                 height: 25,
                                 width: 25,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   color: Color(0xFFF7F7F7),
                                 ),
-                              ),Container(
-                                child: _getCommonText("+",fontSize: 12,textColor: Color(0xFF909399)),
+                              ),
+                              Container(
+                                child: _getCommonText("+",
+                                    fontSize: 12, textColor: Color(0xFF909399)),
                                 height: 16,
                                 width: 16,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    border:Border.all(color: Color( 0xFFC0C4CC),width: 1,style: BorderStyle.solid)
-                                ),
+                                    border: Border.all(
+                                        color: Color(0xFFC0C4CC),
+                                        width: 1,
+                                        style: BorderStyle.solid)),
                               )
                             ],
                           )
@@ -283,5 +327,68 @@ class _State extends State<CartListPage> {
         ],
       ),
     );
+  }
+
+  _addGestureDetectorToWidget({Widget child, GestureTapCallback onTap}) {
+    return GestureDetector(onTap: onTap, child: child);
+  }
+
+  _clickTopTittle() {
+    setState(() {
+      isEidet = !isEidet;
+      mListData.map((object) {
+        object["isShow"] = isEidet;
+        if (isEidet) {
+          object["isoutSeclet"] = false;
+        }
+        List itemList = object["itemList"];
+        itemList.map((value) {
+          value["isintShow"] = isEidet;
+          if (isEidet) {
+            value["isintSeclet"] = false;
+          }
+        }).toList();
+      }).toList();
+    });
+  }
+
+  _setOutItem(int outPosition, bool v) {
+    setState(() {
+      mListData[outPosition]["isoutSeclet"] = v;
+      List itemList = mListData[outPosition]["itemList"];
+      itemList.map((value) {
+        value["isintSeclet"] = v;
+      }).toList();
+    });
+  }
+
+  _setIntItem(int outPosition, int index, bool value) {
+    setState(() {
+      List itemList = mListData[outPosition]["itemList"];
+      itemList[index]["isintSeclet"] = value;
+      bool isAllSeclet = true;
+      for (var i = 0; i < itemList.length; i++) {
+        if (!itemList[i]["isintSeclet"]) {
+          isAllSeclet = false;
+          break;
+        }
+      }
+      print(isAllSeclet);
+      mListData[outPosition]["isoutSeclet"] = isAllSeclet;
+    });
+  }
+
+  //全选
+  _setClickAll(bool v) {
+    setState(() {
+      isAllSeclet=v;
+      mListData.map((object) {
+        object["isoutSeclet"] = v;
+        List itemList = object["itemList"];
+        itemList.map((value) {
+          value["isintSeclet"] = v;
+        }).toList();
+      }).toList();
+    });
   }
 }
