@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterstudy/SplashPage.dart';
 
 import 'CartListPage.dart';
 import 'CommodityEvaluationPage.dart';
@@ -9,7 +10,8 @@ import 'SearchPage.dart';
 import 'VerificationBoxPage.dart';
 
 final Routes = {
-  "/": (context,) => IndexPage(),
+  "/": (context,) => SplashPage(),
+  "/indexPage": (context,) => IndexPage(),
   "/routePage": (context, {arguments}) => RoutePage(arguments: arguments),
   "/searchPage": (context) => SearchPage(),
   "/commodityEvaluationPage": (context) => CommodityEvaluationPage(),

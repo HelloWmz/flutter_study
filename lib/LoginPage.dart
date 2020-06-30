@@ -161,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Expanded(
               child: TextField(
+
             controller: textEditingController,
             maxLines: 1,
             style: TextStyle(color: Color(0xFF303133), fontSize: 16),
@@ -227,7 +228,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future saveIsLogin() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool("isLogin", true);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance()..setBool("isLogin", true);
   }
 }

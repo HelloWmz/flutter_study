@@ -18,34 +18,5 @@ void main() {
   );
 }
 
-class MyAPP extends StatefulWidget {
-  @override
-  _MyAPPState createState() => new _MyAPPState();
-}
 
-class _MyAPPState extends State<MyAPP> {
-  bool isLogin = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getIsLogin();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      body: isLogin ? IndexPage() : LoginPage(),
-    );
-  }
-
-  _getIsLogin() async {
-    bool isLogin = false;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    isLogin = sharedPreferences.getBool("isLogin");
-    setState(() {
-      this.isLogin = isLogin ? false : isLogin;
-    });
-  }
-}
