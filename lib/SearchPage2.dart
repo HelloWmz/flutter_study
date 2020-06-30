@@ -11,7 +11,7 @@ class SearchPage extends StatefulWidget   {
 }
 
 class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateMixin {
-  TextEditingController controller = new TextEditingController();
+  TextEditingController textEditingController = new TextEditingController();
   TabController _TabController;
   int _CurrentIndex;
 
@@ -37,7 +37,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SearchAppBarWidget(
-        controller: controller,
+        controller: textEditingController,
         onBackCall: _onBackCall,
         rightCallBack: _rightCallBack,
         hintText: "搜索",

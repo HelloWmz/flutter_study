@@ -8,10 +8,14 @@ import 'MsgPage.dart';
 import 'PersonPage.dart';
 
 class IndexPage extends StatefulWidget {
+  var index;
+
   @override
   State<StatefulWidget> createState() {
-    return _IndexState();
+    return _IndexState(this.index);
   }
+
+  IndexPage({this.index = 0});
 }
 
 class _IndexState extends State<IndexPage> {
@@ -38,19 +42,15 @@ class _IndexState extends State<IndexPage> {
 
   final pages = [HomePage("搜索"), MsgPage(), CartPage(), PersonPage()];
 
-  @override
-  void initState() {
-    super.initState();
-    currentIndex = 0;
+  _IndexState(index) {
+    this.currentIndex = index;
   }
 
   @override
   Widget build(BuildContext context) {
     // 屏幕适配
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)
-      ..init(context);
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return Scaffold(
-
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
         currentIndex: currentIndex,

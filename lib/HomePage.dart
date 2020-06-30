@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'CartListPage.dart';
 import 'CommodityEvaluationPage.dart';
 import 'LoginPage.dart';
+import 'RouteArgumentsPage.dart';
 import 'SearchPage.dart';
 import 'VerificationBoxPage.dart';
 
@@ -18,10 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var newTittle;
   List list = [
-    {'tittle': "筛选页面", 'page': SearchPage()},
-    {'tittle': "商品评价", 'page': CommodityEvaluationPage()},
-    {'tittle': "验证码输入框", 'page': VerificationBoxPage()},
-    {'tittle': "购物车", 'page': CartListPage()},
+    {'tittle': "筛选页面", 'routeName': "/searchPage"},
+    {'tittle': "商品评价", 'routeName': "/commodityEvaluationPage"},
+    {'tittle': "验证码输入框", 'routeName': "/verificationBoxPage"},
+    {'tittle': "购物车", 'routeName': "/cartListPage"},
+    {'tittle': "路由命名传参", 'routeName': "/routeArgumentsPage"},
   ];
 
   @override
@@ -39,10 +41,7 @@ class _HomePageState extends State<HomePage> {
             return GestureDetector(
               child: _getListViewItem('${list[index]['tittle']}', index),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => list[index]['page']));
+                Navigator.pushNamed(context, list[index]['routeName']);
               },
             );
           }),
