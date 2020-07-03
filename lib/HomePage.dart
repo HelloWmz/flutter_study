@@ -24,6 +24,9 @@ class _HomePageState extends State<HomePage> {
     {'tittle': "验证码输入框", 'routeName': "/verificationBoxPage"},
     {'tittle': "购物车", 'routeName': "/cartListPage"},
     {'tittle': "路由命名传参", 'routeName': "/routeArgumentsPage"},
+    {'tittle': "点击小游戏", 'routeName': "/palyGamePage"},
+    {'tittle': "provider使用", 'routeName': "/providerPage"},
+    {'tittle': "吸顶sticky_headers", 'routeName': "/stickyPage"},
   ];
 
   @override

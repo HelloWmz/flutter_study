@@ -51,14 +51,20 @@ class _IndexState extends State<IndexPage> {
     // 屏幕适配
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavItems,
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          _changePage(index);
-        },
-      ),
+      bottomNavigationBar: Theme(
+        //去掉底部导航的水波纹效果
+          data: ThemeData(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              brightness: Brightness.light),
+          child: BottomNavigationBar(
+            items: bottomNavItems,
+            currentIndex: currentIndex,
+            type: BottomNavigationBarType.fixed,
+            onTap: (index) {
+              _changePage(index);
+            },
+          )),
       body: pages[currentIndex],
     );
   }

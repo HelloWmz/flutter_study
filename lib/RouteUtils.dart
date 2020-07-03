@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutterstudy/SplashPage.dart';
+import 'package:flutterstudy/StickyPage.dart';
+import 'package:flutterstudy/providerPage.dart';
 
 import 'CartListPage.dart';
 import 'CommodityEvaluationPage.dart';
 import 'IndexPage.dart';
+import 'PalyGamePage.dart';
 import 'RouteArgumentsPage.dart';
 import 'RoutePage.dart';
 import 'SearchPage.dart';
@@ -18,6 +21,9 @@ final Routes = {
   "/verificationBoxPage": (context) => VerificationBoxPage(),
   "/cartListPage": (context) => CartListPage(),
   "/routeArgumentsPage": (context) => RouteArgumentsPage(),
+  "/palyGamePage": (context) => PalyGamePage(),
+  "/providerPage": (context) => ProviderPage(),
+  "/stickyPage": (context) => StickyPage(),
 };
 var onGenerateRoute = (RouteSettings settings) {
   final String name = settings.name;
