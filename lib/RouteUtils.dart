@@ -5,7 +5,9 @@ import 'package:flutterstudy/providerPage.dart';
 
 import 'CartListPage.dart';
 import 'CommodityEvaluationPage.dart';
+import 'Dio.dart';
 import 'IndexPage.dart';
+import 'LikeAnimationPage.dart';
 import 'PalyGamePage.dart';
 import 'RouteArgumentsPage.dart';
 import 'RoutePage.dart';
@@ -24,6 +26,8 @@ final Routes = {
   "/palyGamePage": (context) => PalyGamePage(),
   "/providerPage": (context) => ProviderPage(),
   "/stickyPage": (context) => StickyPage(),
+  "/likeAnimationPage": (context) => LikeAnimationPage(),
+  "/DioDemo": (context) => DioDemo(),
 };
 var onGenerateRoute = (RouteSettings settings) {
   final String name = settings.name;

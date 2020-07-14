@@ -31,7 +31,7 @@ class _SplashPage extends State<SplashPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool isLogin =  sharedPreferences.getBool("isLogin");
     setState(() {
-      this.isLogin = isLogin!=null?isLogin:false;
+      this.isLogin = isLogin??false;
     });
   }
 }
